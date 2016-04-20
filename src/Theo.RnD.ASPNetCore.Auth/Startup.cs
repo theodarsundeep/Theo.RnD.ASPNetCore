@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
@@ -47,7 +43,7 @@ namespace Theo.RnD.ASPNetCore.Auth
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddRoleManager<AuthRoleManager>()
+                //.AddRoleManager<AuthRoleManager>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -63,8 +59,6 @@ namespace Theo.RnD.ASPNetCore.Auth
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-             //await roleManager.EnsureRolesCreated();
 
             if (env.IsDevelopment())
             {
@@ -94,6 +88,8 @@ namespace Theo.RnD.ASPNetCore.Auth
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.CreateSiteRoles();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
